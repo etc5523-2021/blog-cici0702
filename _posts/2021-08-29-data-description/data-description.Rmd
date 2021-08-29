@@ -16,10 +16,13 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+
 ```{r}
 library(tidycovid19)
 library(zoo)
 library(tidyverse)
+library(gt)
+library(plotly)
 ```
 
 
@@ -29,9 +32,40 @@ ireland <- df %>%
   filter(country == "Ireland")
 ```
 
+```{r}
+daily <- read.csv(here::here("all\ daily.csv")) %>%
+  filter(location == "Ireland")
+
+country <- read.csv(here::here("Covid19CountyStatisticsHPSCIreland.csv"))
+```
 
 
-Distill is a publication format for scientific and technical writing, native to the web.
+```{r}
+cleaned_ie <- ireland %>%
+  select(2:6) %>%  
+  mutate(newcases = confirmed - lag(confirmed),.before = deaths) %>%
+  mutate(newdeaths = deaths - lag(deaths), .before = recovered)
+```
+
+```{r}
+## add table
+DT::datatable(cleaned_ie, options = list(pageLength = 3))
+```
+
+```{r}
+# visualize the cases
+p1 <- cleaned_ie %>%
+  ggplot(aes(x = date, y = newcases))+
+  geom_line()+
+  theme_bw()
+
+ggplotly(p1)
+```
+
+
+
+
+
 
 Learn more about using Distill at <https://rstudio.github.io/distill>.
 
