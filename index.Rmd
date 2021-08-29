@@ -3,3 +3,18 @@ title: "My Blog"
 site: distill::distill_website
 listing: posts
 ---
+```{r}
+library(tidycovid19)
+library(zoo)
+library(tidyverse)
+```
+
+
+```{r}
+df <- download_merged_data(cached = TRUE, silent = TRUE)
+ireland <- df %>%
+  filter(country == "Ireland")
+```
+
+
+

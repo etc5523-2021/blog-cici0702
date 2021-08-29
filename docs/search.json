@@ -6,14 +6,14 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-08-28T20:06:05+08:00"
+      "last_modified": "2021-08-29T20:19:03+08:00"
     },
     {
       "path": "index.html",
       "title": "My Blog",
       "author": [],
-      "contents": "\n\n\n\n",
-      "last_modified": "2021-08-28T20:06:05+08:00"
+      "contents": "\n\n\nlibrary(tidycovid19)\nlibrary(zoo)\nlibrary(tidyverse)\n\n\n\n\n\ndf <- download_merged_data(cached = TRUE, silent = TRUE)\nireland <- df %>%\n  filter(country == \"Ireland\")\n\n\n\n\n\n\n",
+      "last_modified": "2021-08-29T20:19:08+08:00"
     }
   ],
   "collections": ["posts/posts.json"]
