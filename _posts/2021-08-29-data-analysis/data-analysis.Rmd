@@ -1,5 +1,5 @@
 ---
-title: "Data Description"
+title: "Data Analysis"
 description: |
   A short description of the post.
 author:
@@ -15,21 +15,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-```{r}
-library(tidycovid19)
-library(zoo)
-library(tidyverse)
-```
-
-
-```{r}
-df <- download_merged_data(cached = TRUE, silent = TRUE)
-ireland <- df %>%
-  filter(country == "Ireland")
-```
-
-
 
 Distill is a publication format for scientific and technical writing, native to the web.
 
