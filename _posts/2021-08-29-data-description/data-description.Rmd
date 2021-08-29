@@ -16,7 +16,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
 ```{r}
 library(tidycovid19)
 library(zoo)
@@ -63,10 +62,31 @@ ggplotly(p1)
 ```
 
 
+```{r}
+## data cleaning
+daily_vac <- daily %>%
+  select(date,total_vaccinations, people_vaccinated, people_fully_vaccinated,population) %>%
+  rename("people-get-1-dose" = people_vaccinated,
+         "people-get-2-doses" = people_fully_vaccinated)%>%
+  slice(n = (307:546))%>%
+  mutate(date = as.Date(date)) %>%
+  mutate(vaccination_rate=`people-get-2-doses`/ population*100) %>%
+  filter(!is.na(total_vaccinations))
+
+p2 <- ggplot(daily_vac,
+       aes(x = date))+
+  geom_area(aes(y = total_vaccinations, alpha = 0.3, fill = "total_vaccinations"), color = "blue")+
+  geom_area(aes(y = `people-get-1-dose`, fill = "people-get-1-dose"),alpha = 0.3,color = "yellow")+
+  geom_area(aes(y = `people-get-2-doses`, alpha = 0.3, fill = "people-get-2-doses"), color = "green")+
+  theme_bw()+
+  labs(title = "Vaccinations of Ireland",
+       caption = "Source: Our World in Data")+
+  theme(legend.position="bottom")
+  
+ggplotly(p2)
+```
 
 
 
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 
 
