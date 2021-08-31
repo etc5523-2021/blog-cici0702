@@ -11,6 +11,90 @@ output:
     self_contained: false
 ---
 
+```{css, echo = FALSE}
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  background-color: #2E5550;
+}
+
+body{
+  background-color: FloralWhite;
+  font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+h1 {
+  color: #2E5550;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 34px;
+}
+
+h3 {
+  color: #2E5550;
+  font-size: 26px;
+}
+
+h5 {
+  color: #2E5550;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+}
+
+p{
+  color:#42647F;
+  text-align: left;
+}
+
+a:hover {
+  color: hotpink;
+}
+
+table {
+  width: 100%;
+}
+
+tr:hover {background-color: yellow;}
+
+th {
+  background-color: #4682B4;
+  color: white;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-left{
+  font-size: 50px;
+}
+
+.footer {
+  background-color: #F1F1F1;
+  text-align: center;
+  padding: 10px;
+}
+```
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -35,7 +119,9 @@ COVID-19 is caused by a coronavirus called SARS-CoV-2. The virus that causes COV
 ## Data Description
 The data is from a R package called `tidycovid19` where can be download from git with link: https://github.com/joachim-gassen/tidycovid19. And these data is colllected from Our World in Data (https://ourworldindata.org/coronavirus-testing). I filter the Ireland of the whole dataset as my report. There are 40 variables in this data, I cleaned the data only with 7 variables. And all these information can be see in table1. </br>
 
-Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from Our World in Data(https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing.
+Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from Our World in Data(https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing. </br>
+
+The third dataset is about the different cities of Ireland, which is from Ireland's Open Data portal(https://data.gov.ie/) and collected by Ordnance Survey Ireland(https://data.gov.ie/organization/ordnance-survey-ireland). This dataset only records the Covid statistics from February 2020 to May 2021, and I am going to explore part of it.
 
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -151,8 +237,9 @@ region_compare <- region %>%
 
 knitr::kable(region_compare, caption = "The Covid cases increased in different cities of Ireland between January to May in 2021") %>%
    kable_styling(position = "center") %>%
-  scroll_box(width = "800px", height = "200px")
+  scroll_box(width = "100%", height = "200px")
 ```
+
 
 This table contains the total 26 cities' increasing rate in 2021 from January to May. Above all, the highest increasing rate is Monaghan which leads the first place of all month with nearly 8% increasing rate. However, it doesn't belong to the top10 largest population city in the above table. The city who with second highest increasing rate is Louth, which is also not in the Table1. Reversely, the capital city Dublin gets around 6% increasing rate and the second largest population city Cork only gets 4% around increasing rate. Therefore, the more people doesn't means the higher increasing rate.
 
