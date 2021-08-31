@@ -1,9 +1,28 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog
+  what am I doing everyday?
+theme: theme_css
+  
 ---
+
+```{css, echo = FALSE}
+img {
+  width: 200px;
+}
+
+
+
+```
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+
+![](https://c.tenor.com/nlGcQWb4MisAAAAM/piske-usagi.gif)
+
+
+Welcome to my blog !

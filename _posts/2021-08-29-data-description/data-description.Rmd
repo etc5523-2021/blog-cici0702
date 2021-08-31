@@ -1,14 +1,16 @@
 ---
-title: "Data Description"
+title: "Ireland COVID-19 report"
 description: |
-  A short description of the post.
+ The COVID-19 has lead to a pandamic, this report is based on Ireland.
 author:
   - name: Duan Qian
     url: https://example.com/norajones
 date: 08-29-2021
 output:
   distill::distill_article:
-    self_contained: false
+    toc: true
+    toc_depth: 3
+    toc_float: true
 ---
 
 ```{css, echo = FALSE}
@@ -109,11 +111,11 @@ library(plotly)
 library(lubridate)
 library(kableExtra)
 ```
-
+![](https://nascireland.org/sites/default/files/styles/full_width/public/2021-01/Covid-19%20World%20Service%20%281%29.png?itok=zUutWhN_)
 
 ## Introduction
-COVID-19 is caused by a coronavirus called SARS-CoV-2. The virus that causes COVID-19 is spreading very easily and sustainably  between people. The disease has since spread worldwide, leading to an ongoing pandemic. Now the official treatment for this is to take vaccinations. This report mainly focuses on the Covid-19 spread in Ireland, which has 4994724 people. This report will introduce the daily new cases and death of Covid-19, and how the speed of taking vaccinations. All the statistics is between 2020/01/22 and 2021/08/27.
 
+COVID-19 is caused by a coronavirus called SARS-CoV-2. The virus that causes COVID-19 is spreading very easily and sustainably  between people. The disease has since spread worldwide, leading to an ongoing pandemic. Now the official treatment for this is to take vaccinations. This report mainly focuses on the Covid-19 spread in Ireland, which has 4994724 people. This report will introduce the daily new cases and death of Covid-19, and how the speed of taking vaccinations. All the statistics is between 2020/01/22 and 2021/08/27.
 
 
 ## Data Description
@@ -172,7 +174,7 @@ ggplotly(p1) %>%
 
 This graph draws the daily new cases and new deaths, from the graph we can see that there is an extremely increase since the end of 2020 in December and the new cases got a peak on 2020/01/08 with 8227. Similarly, the number of new death also increases a little in the following days. Moreover, in July of 2021, there is going to be a new pandemic wave of Ireland, since the new cases increases gradually and reach a high position of this year. Compared by the number of new deaths, it seems to under control with lower pressure on hospital and more experience of the government. Or definitely you can guess does the vaccinations work ?
 
-### How does the vaccinations ?
+### The speed of getting vaccinated
 
 ```{r}
 ## data cleaning
@@ -199,8 +201,11 @@ ggplotly(p2) %>%
   layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
 ```
 
-### Does increasing cases related to the population ?
+The vaccination has been strongly recommended as one of the effective method to against COVID virus. In Ireland, the spread of vaccination began at the end of 2020, while in January there was the highest increasing then. The speed of getting vaccination is really fast, the blue part is the total vaccinations, the pink part is the first dose vaccination and the green part is the fully doses. The pink line and the green line is getting closer. Until 2021-08-25, the fully vaccination is 3297241 and the total population of Ireland is 4982904. Therefore, the total vaccination rate is 66%. This is in a leading position all over the world.
 
+
+
+### Does increasing cases related to the population ? </br>
 
 ```{r}
 population <- country %>%
@@ -246,3 +251,7 @@ This table contains the total 26 cities' increasing rate in 2021 from January to
 
 
 ## Reference
+
+
+
+
