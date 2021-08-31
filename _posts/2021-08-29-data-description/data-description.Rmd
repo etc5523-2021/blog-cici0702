@@ -22,8 +22,20 @@ library(zoo)
 library(tidyverse)
 library(gt)
 library(plotly)
+library(lubridate)
+library(kableExtra)
 ```
 
+
+## Introduction
+COVID-19 is caused by a coronavirus called SARS-CoV-2. The virus that causes COVID-19 is spreading very easily and sustainably  between people. The disease has since spread worldwide, leading to an ongoing pandemic. Now the official treatment for this is to take vaccinations. This report mainly focuses on the Covid-19 spread in Ireland, which has 4994724 people. This report will introduce the daily new cases and death of Covid-19, and how the speed of taking vaccinations. All the statistics is between 2020/01/22 and 2021/08/27.
+
+
+
+## Data Description
+The data is from a R package called `tidycovid19` where can be download from git with link: https://github.com/joachim-gassen/tidycovid19. And these data is colllected from Our World in Data (https://ourworldindata.org/coronavirus-testing). I filter the Ireland of the whole dataset as my report. There are 40 variables in this data, I cleaned the data only with 7 variables. And all these information can be see in table1. </br>
+
+Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from Our World in Data(https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing.
 
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -45,22 +57,36 @@ cleaned_ie <- ireland %>%
   mutate(newcases = confirmed - lag(confirmed),.before = deaths) %>%
   mutate(newdeaths = deaths - lag(deaths), .before = recovered)
 ```
+## Data Analysis
 
+### What is the daily Covid-19 statistics of Ireland ?
 ```{r}
 ## add table
 DT::datatable(cleaned_ie, options = list(pageLength = 3))
 ```
 
+This table includes the date, confirmed cases, new cases, death, new death people and all recovered people.You can search anything you want in this table, like type the date or the month and year. What's more, you can also type the numbers of cases to check which date has so much cases. It's a very convenient table for you to measure the Covid impact on Ireland.
+
+
 ```{r}
 # visualize the cases
 p1 <- cleaned_ie %>%
-  ggplot(aes(x = date, y = newcases))+
-  geom_line()+
-  theme_bw()
+  ggplot(aes(x = date))+
+  geom_line(aes(y = newcases, color = "newcases"))+
+  geom_line(aes(y = newdeaths, color = "newdeaths"))+
+  theme_bw()+
+  theme(legend.position="bottom")+
+  ggtitle("The daily increases of new cases and deaths")
 
-ggplotly(p1)
+ggplotly(p1) %>%
+  layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
+
+
 ```
 
+This graph draws the daily new cases and new deaths, from the graph we can see that there is an extremely increase since the end of 2020 in December and the new cases got a peak on 2020/01/08 with 8227. Similarly, the number of new death also increases a little in the following days. Moreover, in July of 2021, there is going to be a new pandemic wave of Ireland, since the new cases increases gradually and reach a high position of this year. Compared by the number of new deaths, it seems to under control with lower pressure on hospital and more experience of the government. Or definitely you can guess does the vaccinations work ?
+
+### How does the vaccinations ?
 
 ```{r}
 ## data cleaning
@@ -83,10 +109,53 @@ p2 <- ggplot(daily_vac,
        caption = "Source: Our World in Data")+
   theme(legend.position="bottom")
   
-ggplotly(p2)
+ggplotly(p2) %>%
+  layout(legend = list(orientation = "h", x = 0.4, y = -0.2))
 ```
 
+### Does increasing cases related to the population ?
+
+
+```{r}
+population <- country %>%
+  select(CountyName,PopulationCensus16) %>%
+  unique() %>%
+  arrange(-PopulationCensus16)%>%
+  head(10)
+knitr::kable(population, caption = "The top10 cities'population in Ireland") %>%
+   kable_styling(position = "center")
+```
+
+The table presents the top 10 cities of Ireland, where the capital city is Dublin with the highest population at `r population$PopulationCensus16[1]`, and followed by the Cork and Galway.
+
+```{r}
+country_tidy <- country %>%
+  select(3:5,8:9,10:14) %>%
+  mutate(Date= as.Date(TimeStamp)) %>%
+  mutate(month = months(Date),
+         year = year(Date)) %>%
+  filter(year == "2021") %>%
+  group_by(CountyName, month,PopulationCensus16) %>%
+  summarise(monthly_cases = max(ConfirmedCovidCases)) %>%
+  arrange(CountyName)
+## count the increasing rate
+region <-country_tidy %>%
+  mutate(increasing_rate = round(monthly_cases / PopulationCensus16 * 100,2))
+region$increasing_rate = paste(region$increasing_rate,"%")
+
+region_compare <- region %>%
+  select(CountyName, month, increasing_rate) %>%
+  pivot_wider(names_from = "CountyName",
+              values_from = "increasing_rate") %>%
+  arrange(month)
+
+knitr::kable(region_compare, caption = "The Covid cases increased in different cities of Ireland between January to May in 2021") %>%
+   kable_styling(position = "center") %>%
+  scroll_box(width = "800px", height = "200px")
+```
+
+This table contains the total 26 cities' increasing rate in 2021 from January to May. Above all, the highest increasing rate is Monaghan which leads the first place of all month with nearly 8% increasing rate. However, it doesn't belong to the top10 largest population city in the above table. The city who with second highest increasing rate is Louth, which is also not in the Table1. Reversely, the capital city Dublin gets around 6% increasing rate and the second largest population city Cork only gets 4% around increasing rate. Therefore, the more people doesn't means the higher increasing rate.
 
 
 
-
+## Reference
