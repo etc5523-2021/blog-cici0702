@@ -1,0 +1,13 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this blog",
+      "description": "Welcome to my blog !",
+      "author": [],
+      "contents": "\n\n\n.img {\n  height: 40px;\n  width: 200px;\n}\n\nbody {\n  font-family: Copperplate, Papyrus, fantasy;\n}\n\n\n\n\n\nWhat am I doing every day ? – Be happy :)!\n\n\n\n",
+      "last_modified": "2021-09-01T20:27:02+08:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}

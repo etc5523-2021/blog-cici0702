@@ -1,13 +1,17 @@
 ---
 title: "About this blog"
 description: |
-  what am I doing everyday?
-theme: theme.css
+  Welcome to my blog !
 ---
 
 ```{css, echo = FALSE}
-img {
+.img {
+  height: 40px;
   width: 200px;
+}
+
+body {
+  font-family: Copperplate, Papyrus, fantasy;
 }
 
 
@@ -24,4 +28,4 @@ knitr::opts_chunk$set(echo = FALSE)
 ![](https://c.tenor.com/nlGcQWb4MisAAAAM/piske-usagi.gif)
 
 
-Welcome to my blog !
+What am I doing every day ?  -- Be happy :)!
