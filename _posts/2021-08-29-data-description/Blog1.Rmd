@@ -78,7 +78,7 @@ totstatis <- cleaned_ie %>%
             recovered = max(recovered)) 
 ```
 
-The latest data shows that in Ireland, there has been `r totstatis[2]` people are affected by COVID-19 virus, and `r totstatis[2]` people died of this virus. `r totstatis[3]` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
+The latest data shows that in Ireland, there has been `r totstatis[1] ` people are affected by COVID-19 virus, and `r totstatis[2] ` people died of this virus. `r totstatis[3] ` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
 
 ### What is the daily COVID-19 statistics of Ireland ?
 

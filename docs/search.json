@@ -1,11 +1,19 @@
 {
   "articles": [
     {
+      "path": "about.html",
+      "title": "About this blog",
+      "description": "Welcome to my blog !",
+      "author": [],
+      "contents": "\n\n\n.img {\n  height: 40px;\n  width: 200px;\n}\n\nbody {\n  font-family: Copperplate, Papyrus, fantasy;\n}\n\n\n\n\n\nWhat am I doing every day ? – Be happy :)!\n\n\n\n",
+      "last_modified": "2021-09-02T00:15:59+08:00"
+    },
+    {
       "path": "index.html",
       "title": "Cici's Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-09-01T23:58:23+08:00"
+      "last_modified": "2021-09-02T00:14:05+08:00"
     }
   ],
   "collections": ["posts/posts.json"]
