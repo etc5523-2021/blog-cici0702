@@ -11,5 +11,7 @@ navbar:
       href: about.html
 output: 
   distill::distill_article:
+    include:
+      after_body: footer.html
     css: blog_style.css
   

@@ -8,11 +8,11 @@ author:
 date: 08-29-2021
 output:
   distill::distill_article:
-    include:
-      after_body: footer.html
-    toc: true
-    toc_depth: 3
-    toc_float: true
+   include:
+     after_body: footer.html
+   toc: true
+   toc_depth: 3
+   toc_float: true
 ---
 
 
@@ -28,6 +28,9 @@ library(gt)
 library(plotly)
 library(lubridate)
 library(kableExtra)
+library(DT)
+library(sparkline)
+library(rio)
 ```
 ![](https://nascireland.org/sites/default/files/styles/full_width/public/2021-01/Covid-19%20World%20Service%20%281%29.png?itok=zUutWhN_)
 
@@ -68,13 +71,68 @@ cleaned_ie <- ireland %>%
 ```
 ## Data Analysis
 
-### What is the daily COVID-19 statistics of Ireland ?
 ```{r}
-## add table
-DT::datatable(cleaned_ie, options = list(pageLength = 3))
+totstatis <- cleaned_ie %>%
+  summarise(confirmed = max(confirmed),
+            deaths = max(deaths),
+            recovered = max(recovered)) 
 ```
 
-This table includes the date, confirmed cases, new cases, death, new death people and all recovered people.You can search anything you want in this table, like type the date or the month and year. What's more, you can also type the numbers of cases to check which date has so much cases. It's a very convenient table for you to measure the Covid impact on Ireland.
+The latest data shows that in Ireland, there has been `r totstatis[2]` people are affected by COVID-19 virus, and `r totstatis[2]` people died of this virus. `r totstatis[3]` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
+
+### What is the daily COVID-19 statistics of Ireland ?
+
+```{r}
+## separate the date 
+case2020 <- cleaned_ie %>%
+  mutate(year = year(date)) %>%
+  filter(year == "2020") %>%
+  mutate(month = month(date)) %>%
+  group_by(month) 
+case2020$Date <- with(case2020, sprintf("%d-%02d", year, month))
+case2020 <- case2020 %>%
+  select(4,6,7,10)
+
+case2021<- cleaned_ie %>%
+  mutate(year = year(date)) %>%
+  filter(year == "2021") %>%
+  mutate(month = month(date)) %>%
+  group_by(month) 
+case2021$Date <- with(case2021, sprintf("%d-%02d", year, month))
+case2021 <- case2021 %>%
+  select(4,6,7,10)
+
+casetotal <- rbind(case2020,case2021)
+  
+
+## sparkline 
+
+casetotal %>%
+  group_by(Date)%>%
+  summarise(newcases = spk_chr(newcases,
+                           type = "line",
+                           highlightLineColor = 'orange', 
+                           highlightSpotColor = 'orange'),
+            newdeaths = spk_chr(newdeaths,
+                           type = "line",
+                           highlightLineColor = 'orange', 
+                           highlightSpotColor = 'orange'),
+            recovered = spk_chr(recovered,
+                           type = "line",
+                           highlightLineColor = 'orange', 
+                           highlightSpotColor = 'orange')) %>%
+  datatable(escape = F,
+              rownames = F,
+              options = list(fnDrawCallback = htmlwidgets::JS('function(){
+                                                              HTMLWidgets.staticRender();
+                                                              }'))
+    ) %>% 
+    spk_add_deps() 
+```
+
+
+This table includes the date, new cases, new death people and all recovered people by month since January 2020 to August 2021.You can search by month or year as you want in this table. It's a very convenient table for you to measure the COVID impact on Ireland. The horizontal line in January and February of 2020 means there isn't many people to be affected by COVID virus. And the new cases fluctuated heavily in the mid of 2020. However, the recover had a steadily increase and the total recovered people is unchanged so the line is also flat. Moreover, both December and July has a increasing trend of new cases, while the death people is really low and some month only got 0 death. Recently, the recovered people all return from hospital, now the hospital resources are enough for people to get cured. Therefore, the line stays the same while goes down to the 0 due to the latest statistics.
+
 
 
 ```{r}
