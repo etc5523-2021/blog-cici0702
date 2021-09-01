@@ -9,12 +9,6 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Content"
-      menu:
-        - text: "Blog1"
-          href: Blog1.html
-        - text: "Blog2"
-          href: Blog2.html
 output: 
   distill::distill_article:
     include:
