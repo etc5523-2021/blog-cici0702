@@ -3,7 +3,7 @@ title: "Ireland COVID-19 report"
 description: |
  The COVID-19 has lead to a pandamic, this report is based on Ireland.
 author:
-  - name: Duan Qian
+  - name: Duan ian
     url: https://example.com/norajones
 date: 08-29-2021
 output:
