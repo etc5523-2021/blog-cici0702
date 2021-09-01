@@ -8,94 +8,12 @@ author:
 date: 08-29-2021
 output:
   distill::distill_article:
+    include:
+      after_body: footer.html
     toc: true
     toc_depth: 3
     toc_float: true
 ---
-
-```{css, echo = FALSE}
-* {
-  box-sizing: border-box;
-}
-
-.header {
-  background-color: #2E5550;
-}
-
-body{
-  background-color: FloralWhite;
-  font-family: Arial, Helvetica, sans-serif;
-    
-}
-
-h1 {
-  color: #2E5550;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 34px;
-}
-
-h3 {
-  color: #2E5550;
-  font-size: 26px;
-}
-
-h5 {
-  color: #2E5550;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 22px;
-}
-
-p{
-  color:#42647F;
-  text-align: left;
-}
-
-a:hover {
-  color: hotpink;
-}
-
-table {
-  width: 100%;
-}
-
-tr:hover {background-color: yellow;}
-
-th {
-  background-color: #4682B4;
-  color: white;
-}
-
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
-
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.nav-left{
-  font-size: 50px;
-}
-
-.footer {
-  background-color: #F1F1F1;
-  text-align: center;
-  padding: 10px;
-}
-```
 
 
 ```{r setup, include=FALSE}
@@ -115,7 +33,10 @@ library(kableExtra)
 
 ## Introduction
 
-COVID-19 is caused by a coronavirus called SARS-CoV-2. The virus that causes COVID-19 is spreading very easily and sustainably  between people. The disease has since spread worldwide, leading to an ongoing pandemic. Now the official treatment for this is to take vaccinations. This report mainly focuses on the Covid-19 spread in Ireland, which has 4994724 people. This report will introduce the daily new cases and death of Covid-19, and how the speed of taking vaccinations. All the statistics is between 2020/01/22 and 2021/08/27.
+![Galway Girl--Ed Sheeran](https://i.ytimg.com/vi/Q5kA5m5ddaM/maxresdefault.jpg)
+This is one of my favorite song from Ed Sheeran. He mentioned the Galway which is a city of Ireland and describes his romantic love with his wife, which arrows my interest of the beautiful city of Ireland. Ireland is an island nation located in Western Europe northwest of the United Kingdom. It's one of the most beautiful land in the world. I did plan to travel but with the COVID pandemic began, all my plans need to be deferred. This report is mainly about the COVID-19 that happens in Ireland. </br>
+
+COVID-19 is caused by a Coronavirus called SARS-CoV-2. The virus that causes COVID-19 is spreading very easily and sustainablely  between people. The disease has since spread worldwide, leading to an ongoing pandemic. Now the official treatment for this is to take vaccinations. This report mainly focuses on the COVID-19 spread in Ireland, which has 4994724 people. This report will introduce the daily new cases and death of COVID-19, and how the speed of taking vaccinations. All the statistics is between 2020/01/22 and 2021/08/27.
 
 
 ## Data Description
@@ -123,7 +44,7 @@ The data is from a R package called `tidycovid19` where can be download from git
 
 Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from Our World in Data(https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing. </br>
 
-The third dataset is about the different cities of Ireland, which is from Ireland's Open Data portal(https://data.gov.ie/) and collected by Ordnance Survey Ireland(https://data.gov.ie/organization/ordnance-survey-ireland). This dataset only records the Covid statistics from February 2020 to May 2021, and I am going to explore part of it.
+The third dataset is about the different cities of Ireland, which is from Ireland's Open Data portal(https://data.gov.ie/) and collected by Ordnance Survey Ireland(https://data.gov.ie/dataset/covid19countystatisticshpscireland1?package_type=dataset). This dataset only records the Covid statistics from February 2020 to May 2021, and I am going to explore part of it.
 
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -147,7 +68,7 @@ cleaned_ie <- ireland %>%
 ```
 ## Data Analysis
 
-### What is the daily Covid-19 statistics of Ireland ?
+### What is the daily COVID-19 statistics of Ireland ?
 ```{r}
 ## add table
 DT::datatable(cleaned_ie, options = list(pageLength = 3))
@@ -251,6 +172,45 @@ This table contains the total 26 cities' increasing rate in 2021 from January to
 
 
 ## Reference
+
++ Hasell, J., Mathieu, E., Beltekian, D. et al. A cross-country database of COVID-19 testing. Sci Data 7, 345 (2020) https://ourworldindata.org/coronavirus-testing
+
++ Joachim Gassen (2021). tidycovid19: Download, Tidy and
+  Visualize Covid-19 Related Data. R package version
+  0.0.0.9000.
+https://github.com/joachim-gassen/tidycovid19
+
++ Mathieu, E., Ritchie, H., Ortiz-Ospina, E. et al. A global database of COVID-19 vaccinations. Nat Hum Behav (2021)
+https://ourworldindata.org/covid-vaccinations
+
++ Ordnance Survey Ireland. Covid19CountyStatisticsHPSCIreland (2021)
+https://data.gov.ie/dataset/covid19countystatisticshpscireland1?package_type=dataset
+
++ Wickham et al., (2019). Welcome to the tidyverse.
+  Journal of Open Source Software, 4(43), 1686,
+  https://doi.org/10.21105/joss.01686
+
++ Richard Iannone, Joe Cheng and Barret Schloerke (2021).
+  gt: Easily Create Presentation-Ready Display Tables. R
+  package version 0.3.1.
+  https://CRAN.R-project.org/package=gt
+
++ Achim Zeileis and Gabor Grothendieck (2005). zoo: S3
+  Infrastructure for Regular and Irregular Time Series.
+  Journal of Statistical Software, 14(6), 1-27.
+  doi:10.18637/jss.v014.i06
+
++ C. Sievert. Interactive Web-Based Data Visualization
+  with R, plotly, and shiny. Chapman and Hall/CRC Florida,2020.
+  
++ Garrett Grolemund, Hadley Wickham (2011). Dates and
+  Times Made Easy with lubridate. Journal of Statistical
+  Software, 40(3), 1-25. URL
+  https://www.jstatsoft.org/v40/i03/.
+
++ Hao Zhu (2021). kableExtra: Construct Complex Table with
+  'kable' and Pipe Syntax. R package version 1.3.4.
+  https://CRAN.R-project.org/package=kableExtra
 
 
 

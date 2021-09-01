@@ -2,8 +2,7 @@
 title: "About this blog"
 description: |
   what am I doing everyday?
-theme: theme_css
-  
+theme: theme.css
 ---
 
 ```{css, echo = FALSE}
