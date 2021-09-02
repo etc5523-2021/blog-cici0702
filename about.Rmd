@@ -20,12 +20,7 @@ body {
 
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
-
-![](https://c.tenor.com/nlGcQWb4MisAAAAM/piske-usagi.gif)
+<img src="https://c.tenor.com/nlGcQWb4MisAAAAM/piske-usagi.gif" alt="drawing" class="center" style="width:300px;height:300px;" >
 
 
 What am I doing every day ?  -- Be happy :)!

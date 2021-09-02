@@ -18,6 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 ```
 
 ```{r}
@@ -31,6 +32,7 @@ library(kableExtra)
 library(DT)
 library(sparkline)
 library(rio)
+library(scales)
 ```
 ![](https://nascireland.org/sites/default/files/styles/full_width/public/2021-01/Covid-19%20World%20Service%20%281%29.png?itok=zUutWhN_)
 
@@ -72,13 +74,16 @@ cleaned_ie <- ireland %>%
 ## Data Analysis
 
 ```{r}
+point <- format_format(big.mark = " ", decimal.mark = ",", scientific = FALSE)
+
 totstatis <- cleaned_ie %>%
   summarise(confirmed = max(confirmed),
             deaths = max(deaths),
             recovered = max(recovered)) 
 ```
 
-The latest data shows that in Ireland, there has been `r totstatis[1] ` people are affected by COVID-19 virus, and `r totstatis[2] ` people died of this virus. `r totstatis[3] ` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
+
+The latest data shows that in Ireland, there has been `r scales::comma(totstatis$confirmed) ` people are affected by COVID-19 virus, and `r scales::comma(totstatis$deaths) ` people died of this virus. `r scales::comma(totstatis$recovered) ` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
 
 ### What is the daily COVID-19 statistics of Ireland ?
 
@@ -215,13 +220,15 @@ region$increasing_rate = paste(region$increasing_rate,"%")
 
 region_compare <- region %>%
   select(CountyName, month, increasing_rate) %>%
-  pivot_wider(names_from = "CountyName",
-              values_from = "increasing_rate") %>%
-  arrange(month)
+  pivot_wider(names_from = "month",
+              values_from = "increasing_rate")
+region_compare <- region_compare %>%
+  relocate(January, February, March, April, May, .after = CountyName)
 
-knitr::kable(region_compare, caption = "The Covid cases increased in different cities of Ireland between January to May in 2021") %>%
+
+knitr::kable(region_compare, caption = "Increased cases in different cities of Ireland from January to May in 2021") %>%
    kable_styling(position = "center") %>%
-  scroll_box(width = "100%", height = "200px")
+  scroll_box(height = "200px")
 ```
 
 
