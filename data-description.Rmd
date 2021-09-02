@@ -45,11 +45,11 @@ COVID-19 is caused by a Coronavirus called SARS-CoV-2. The virus that causes COV
 
 
 ## Data Description
-The data is from a R package called `tidycovid19` where can be download from git with link: https://github.com/joachim-gassen/tidycovid19. And these data is colllected from Our World in Data (https://ourworldindata.org/coronavirus-testing). I filter the Ireland of the whole dataset as my report. There are 40 variables in this data, I cleaned the data only with 7 variables. And all these information can be see in table1. </br>
+The data is from a R package called `tidycovid19` where can be download from git with link:  [Github](https://github.com/joachim-gassen/tidycovid19). And these data is colllected from [Our World in Data](https://ourworldindata.org/coronavirus-testing). I filter the Ireland of the whole dataset as my report. There are 40 variables in this data, I cleaned the data only with 7 variables. And all these information can be see in table1. </br>
 
-Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from Our World in Data(https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing. </br>
+Another dataset is about vaccinations in Ireland, which records the speed of vaccinations. This data is also from [Our World in Data](https://ourworldindata.org/covid-vaccinations). I also choose part of the data and compared the speed of how many people get first dose and total doses in Ireland, there are 6 variables with date, total vaccinations, first and second doses people, population, and I also count the vaccination rate for comparing. </br>
 
-The third dataset is about the different cities of Ireland, which is from Ireland's Open Data portal(https://data.gov.ie/) and collected by Ordnance Survey Ireland(https://data.gov.ie/dataset/covid19countystatisticshpscireland1?package_type=dataset). This dataset only records the Covid statistics from February 2020 to May 2021, and I am going to explore part of it.
+The third dataset is about the different cities of Ireland, which is from [Ireland's Open Data portal](https://data.gov.ie/) and collected by [Ordnance Survey Ireland](https://data.gov.ie/dataset/covid19countystatisticshpscireland1?package_type=dataset). This dataset only records the Covid statistics from February 2020 to May 2021, and I am going to explore part of it.
 
 ```{r}
 df <- download_merged_data(cached = TRUE, silent = TRUE)
@@ -71,7 +71,7 @@ cleaned_ie <- ireland %>%
   mutate(newcases = confirmed - lag(confirmed),.before = deaths) %>%
   mutate(newdeaths = deaths - lag(deaths), .before = recovered)
 ```
-## Data Analysis
+
 
 ```{r}
 point <- format_format(big.mark = " ", decimal.mark = ",", scientific = FALSE)
@@ -82,8 +82,9 @@ totstatis <- cleaned_ie %>%
             recovered = max(recovered)) 
 ```
 
-
 The latest data shows that in Ireland, there has been `r scales::comma(totstatis$confirmed) ` people are affected by COVID-19 virus, and `r scales::comma(totstatis$deaths) ` people died of this virus. `r scales::comma(totstatis$recovered) ` people recovered from this virus. Let's move on to the detailed analysis of COVID-19 in Ireland. 
+
+## Data Analysis
 
 ### What is the daily COVID-19 statistics of Ireland ?
 
