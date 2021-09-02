@@ -4,7 +4,7 @@ description: |
  The COVID-19 has lead to a pandamic, this report is based on Ireland.
 author:
   - name: Duan Qian
-    url: https://example.com/norajones
+    url: https://etc5523-2021.github.io/blog-cici0702/
 date: 08-29-2021
 output:
   distill::distill_article:
@@ -228,13 +228,14 @@ region_compare <- region_compare %>%
 
 knitr::kable(region_compare, caption = "Increased cases in different cities of Ireland from January to May in 2021") %>%
    kable_styling(position = "center") %>%
-  scroll_box(height = "200px")
+  scroll_box(height = "400px")
 ```
 
 
 This table contains the total 26 cities' increasing rate in 2021 from January to May. Above all, the highest increasing rate is Monaghan which leads the first place of all month with nearly 8% increasing rate. However, it doesn't belong to the top10 largest population city in the above table. The city who with second highest increasing rate is Louth, which is also not in the Table1. Reversely, the capital city Dublin gets around 6% increasing rate and the second largest population city Cork only gets 4% around increasing rate. Therefore, the more people doesn't means the higher increasing rate.
 
-
+## Conclusion
+Through the changing number of cases and death, the government and the public all devote themselves to make people's lives better. The vaccinations of Ireland will spread more, and I hope the pandemic would disappear in the coming days. At then, our world will back to normal and we will have more chances to love the world. Peace and love.
 
 ## Reference
 
@@ -276,6 +277,10 @@ https://data.gov.ie/dataset/covid19countystatisticshpscireland1?package_type=dat
 + Hao Zhu (2021). kableExtra: Construct Complex Table with
   'kable' and Pipe Syntax. R package version 1.3.4.
   https://CRAN.R-project.org/package=kableExtra
+  
++ Hadley Wickham and Dana Seidel (2020). scales: Scale
+  Functions for Visualization. R package version 1.1.1.
+  https://CRAN.R-project.org/package=scales
 
 
 

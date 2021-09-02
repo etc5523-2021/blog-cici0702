@@ -4,21 +4,6 @@ description: |
   Welcome to my blog !
 ---
 
-```{css, echo = FALSE}
-.img {
-  height: 40px;
-  width: 200px;
-}
-
-body {
-  font-family: Copperplate, Papyrus, fantasy;
-}
-
-
-
-```
-
-
 
 <img src="https://c.tenor.com/nlGcQWb4MisAAAAM/piske-usagi.gif" alt="drawing" class="center" style="width:300px;height:300px;" >
 
