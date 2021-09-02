@@ -1,14 +1,14 @@
 # My Blog
 
 
-This is the blog of [Duan Qian].
+This is the blog of Duan Qian.
 The URL of this blog is [https://etc5523-2021.github.io/blog-cici0702/].
 
 ## Blog Post 1
 
 This assessment is due Fri Sep 3 2021 11.55PM AEST.
 
-My selected country is [Ireland].
+My selected country is Ireland.
 
 The relevant blog post for this assessment is in https://etc5523-2021.github.io/blog-cici0702/data-description.html.
 
