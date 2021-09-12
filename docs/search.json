@@ -10,17 +10,17 @@
     },
     {
       "path": "blog2.html",
-      "title": "Blog2",
-      "description": "A new article created using the Distill format.\n",
+      "title": "Israel COVID-19 report",
+      "description": "The COVID-19 has lead to a pandamic, this report is based on Israel.\n",
       "author": [
         {
-          "name": "Nora Jones",
-          "url": "https://example.com/norajones"
+          "name": "Duan Qian",
+          "url": "https://etc5523-2021.github.io/blog-cici0702/"
         }
       ],
-      "date": "`r Sys.Date()`",
-      "contents": "\nDistill is a publication format for scientific and technical writing, native to the web.\nLearn more about using Distill for R Markdown at https://rstudio.github.io/distill.\n\n\n\n",
-      "last_modified": "2021-09-12T21:17:51+08:00"
+      "date": "08-29-2021",
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-09-12T21:30:43+08:00"
     },
     {
       "path": "data-description.html",
@@ -47,7 +47,7 @@
       "path": "README.html",
       "author": [],
       "contents": "\nMy Blog\nThis is the blog of [Duan Qian]. The URL of this blog is [https://etc5523-2021.github.io/blog-cici0702/].\nBlog Post 1\nThis assessment is due Fri Sep 3 2021 11.55PM AEST.\nMy selected country is [Ireland].\nThe relevant blog post for this assessment is in [https://etc5523-2021.github.io/blog-cici0702/data-description.html]\n\nSelected a country\n\nWebsite with R markdown\n\nA working URL\n\nData description\n\nShort data story\n\nTable 1\n\nTable 2\n\nCustomised website with CSS\n\nSubmitted the entire blog to Moodle\nBlog Post 2\nThis assessment is due Fri Sep 17 2021 11.55PM AEST.\nMy selected country is [FILL].\nThe relevant blog post for this assessment is in [FILL].html\n\nSelected a new country\n\nData Story 1\n\nData Story 2\n\nGraph 1\n\nGraph 2\n\nSubmitted the entire blog to Moodle\n",
-      "last_modified": "2021-09-12T21:17:52+08:00"
+      "last_modified": "2021-09-12T21:30:43+08:00"
     }
   ],
   "collections": ["posts/posts.json"]

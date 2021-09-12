@@ -1,23 +1,24 @@
 ---
-title: "Blog2"
+title: "Israel COVID-19 report"
 description: |
-  A new article created using the Distill format.
+ The COVID-19 has lead to a pandamic, this report is based on Israel.
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
-date: "`r Sys.Date()`"
-output: distill::distill_article
+  - name: Duan Qian
+    url: https://etc5523-2021.github.io/blog-cici0702/
+date: 08-29-2021
+output:
+  distill::distill_article:
+   include:
+     after_body: footer.html
+   toc: true
+   toc_depth: 3
+   toc_float: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web. 
-
-Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
 
 
 
