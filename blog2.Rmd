@@ -19,8 +19,71 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+```{r}
+library(tidycovid19)
+library(zoo)
+library(tidyverse)
+library(gt)
+library(plotly)
+library(lubridate)
+library(kableExtra)
+library(DT)
+library(sparkline)
+library(rio)
+library(scales)
+library(rnaturalearth)
+library(sf)
+```
 
 
+```{r}
+totaldat <- read.csv(here::here("dataset/owid-covid-data.csv"))
 
+israel <- totaldat %>%
+  filter(location == "Israel")
+# data wrangling
+asia <- totaldat %>%
+  filter(continent == "Asia") %>%
+  select(location, people_fully_vaccinated, population)
+
+asia_map <- ne_countries(continent = "asia", returnclass = "sf", scale = "medium")%>% 
+  select(name)
+
+# recode tables
+asia_map %>%
+  anti_join(asia, by = c("name" = "location"))
+asia_map <- asia_map %>%
+  mutate(name = recode(name,
+                       "Korea" = "South Korea"))
+# join together
+asia_map <- asia %>%
+  right_join(asia_map, by = c("location" = "name"))
+
+# clean
+asia_vac <- asia_map %>%
+  group_by(location) %>%
+  na.omit()%>%
+  filter(people_fully_vaccinated == max(people_fully_vaccinated))%>%
+  mutate(vac_rate = round(people_fully_vaccinated/ population * 100,3))
+```
+
+
+```{r}
+# draw map
+map <- asia_vac %>%
+  ggplot(group = location)+
+  geom_sf(mapping = aes(geometry = geometry, fill = vac_rate, group = location), size = 0.3 )+
+  theme_classic()+
+  scale_fill_distiller(palette = "Blues", na.value = "white", direction = 1)+
+  scale_fill_gradientn(colours = c(c('#461863','#404E88','#2A8A8C','#7FD157','#F9E53F',"red")),breaks = c(0,10,30,50,60,70))+
+  labs(fill = 'Fully vaccinated rate'
+       ,color = 'Israel'
+       ,title = 'Fully vaccinated rate of Covid in Asia(part)'
+       ,x = NULL
+       ,y = NULL)+
+  geom_point(x = 30, y = 31.04,shape = 11, size = 3, color = "red")
+
+ggplotly(map)
+```
 
 
