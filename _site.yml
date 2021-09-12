@@ -11,6 +11,8 @@ navbar:
       menu:
         - text: "Blog1"
           href: data-description.html
+        - text: "Blog2"
+          href: blog2.html
     - text: "About"
       href: about.html
 output: 
