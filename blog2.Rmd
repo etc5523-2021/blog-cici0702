@@ -34,6 +34,9 @@ library(scales)
 library(rnaturalearth)
 library(sf)
 library(viridis)
+library(dygraphs)
+library(xts)
+library(gganimate)
 ```
 
 ## dataset
@@ -85,16 +88,16 @@ israel_covid_total %>%
   group_by(Date)%>%
   summarise(newcases = spk_chr(new_cases,
                            type = "line",
-                           highlightLineColor = 'orange', 
-                           highlightSpotColor = 'orange'),
+                           highlightLineColor = 'green', 
+                           highlightSpotColor = 'yellow'),
             newcases_ = spk_chr(new_cases,
                            type = "box",
                            chartRangeMin=0, 
                            chartRangeMax=max(new_cases)),
             newdeaths = spk_chr(new_deaths,
                            type = "line",
-                           highlightLineColor = 'orange', 
-                           highlightSpotColor = 'orange'),
+                           highlightLineColor = 'green', 
+                           highlightSpotColor = 'yellow'),
             newdeaths_ = spk_chr(new_deaths,
                            type = "box",
                            chartRangeMin=0, 
@@ -162,4 +165,68 @@ ggplotly(map)%>%
                      x = 0.5))
 ```
 
+
+```{r}
+# compare the gender and age
+# use dygraph for gender barchart for age
+gender <- tot_age_gender %>%
+  select(last_week_day, gender, weekly_tests_num, weekly_cases) %>%
+  rename(`Weekly(date)` = last_week_day) %>%
+  mutate(weekly_tests_num = as.numeric(weekly_tests_num),
+         weekly_cases = as.numeric(weekly_cases),
+        `Weekly(date)` = as.Date(`Weekly(date)`))%>%
+  group_by(`Weekly(date)`, gender) %>%
+  summarise(weekly_tests = sum(weekly_tests_num),
+            weekly_cases = sum(weekly_cases))
+```
+
+```{r}
+# draw dygraph
+gender_cases <- gender %>%
+  select(-weekly_tests)%>%
+  pivot_wider(names_from = "gender",
+              values_from = weekly_cases)
+gender_cases <- gender_cases %>%
+  xts(order.by = gender_cases$`Weekly(date)`)
+
+dygraph(gender_cases, main = "The weekly newcases of genders in Israel") %>%
+  dyAxis("y", label = "male") %>%
+  dyAxis("y2", label = "female")%>%
+  dySeries("male", axis = "y",stepPlot = TRUE,fillGraph = TRUE) %>%
+  dySeries("female", axis = "y2", stepPlot = TRUE, color = "purple") %>%
+  dyOptions(axisLineWidth = 1.5, drawGrid = FALSE,,fillAlpha = 0.5) %>%
+  dyRangeSelector(height = 20) %>%
+  dyHighlight(highlightSeriesOpts = list(strokeWidth = 3))
+```
+
+```{r}
+# analysis the age group
+age_group <- tot_age_gender %>%
+  select(last_week_day, age_group, weekly_cases) %>%
+  rename(`Weekly(date)` = last_week_day) %>%
+  mutate(weekly_cases = as.numeric(weekly_cases),
+        `Weekly(date)` = as.Date(`Weekly(date)`)) %>%
+  mutate(year = year(`Weekly(date)`),
+         month = month(`Weekly(date)`)) %>%
+  na.omit() %>%
+  group_by(year,month,age_group) %>%
+  summarise(weekly_cases = sum(weekly_cases))
+
+age_group$Date <- with(age_group, sprintf("%d-%02d", year, month))
+
+```
+
+```{r}
+ggplot(age_group,aes(x = age_group , y = weekly_cases, fill = age_group)) +
+  geom_bar(stat='identity')+
+  theme_classic()+
+  ggtitle("monthly new cases by age in Irsael")+
+  scale_fill_manual(values = c("paleturquoise3","moccasin","lightsteelblue","salmon","lightskyblue3","sandybrown","darkolivegreen2","thistle2","gray85","orchid3","pink","yellow","hotpink","green","lightblue"))+
+  transition_states(
+    Date,
+    transition_length = 3,
+    state_length = 1
+  ) +
+  ease_aes('sine-in-out')
+```
 
