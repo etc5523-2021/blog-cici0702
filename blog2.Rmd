@@ -33,14 +33,87 @@ library(rio)
 library(scales)
 library(rnaturalearth)
 library(sf)
+library(viridis)
 ```
 
-
+## dataset
 ```{r}
 totaldat <- read.csv(here::here("dataset/owid-covid-data.csv"))
 
 israel <- totaldat %>%
   filter(location == "Israel")
+
+tot_age_gender <- read.csv(here::here("dataset/age_and_gender.csv")) %>%
+  # recode the name
+  mutate(gender = recode(gender,"זכר" = "male",
+                         "נקבה" = "female")) %>%
+  filter(gender == c("male","female"))
+
+```
+
+
+
+```{r}
+# make a table of israel
+# get the new cases and death data
+
+israel_new <- israel %>%
+  select(date, new_cases, new_deaths) %>%
+  mutate(year = year(date),
+         month = month(date))
+
+israel_2020 <- israel_new %>%
+  filter(year == "2020") %>%
+  arrange(month)
+
+israel_2020$Date <- with(israel_2020, sprintf("%d-%02d", year, month))
+
+
+israel_2021 <- israel_new %>%
+  filter(year == "2021") %>%
+  arrange(month)
+
+israel_2021$Date <- with(israel_2021, sprintf("%d-%02d", year, month))
+
+israel_covid_total <- rbind(israel_2020,israel_2021)
+```
+
+
+```{r}
+# sparkline
+israel_covid_total %>%
+  group_by(Date)%>%
+  summarise(newcases = spk_chr(new_cases,
+                           type = "line",
+                           highlightLineColor = 'orange', 
+                           highlightSpotColor = 'orange'),
+            newcases_ = spk_chr(new_cases,
+                           type = "box",
+                           chartRangeMin=0, 
+                           chartRangeMax=max(new_cases)),
+            newdeaths = spk_chr(new_deaths,
+                           type = "line",
+                           highlightLineColor = 'orange', 
+                           highlightSpotColor = 'orange'),
+            newdeaths_ = spk_chr(new_deaths,
+                           type = "box",
+                           chartRangeMin=0, 
+                           chartRangeMax=max(new_deaths)))%>%
+  datatable(escape = F,
+              rownames = F,
+              options = list(fnDrawCallback = htmlwidgets::JS('function(){
+                                                              HTMLWidgets.staticRender();
+                                                              }'))
+    ) %>% 
+    spk_add_deps()
+```
+
+
+
+
+# draw map
+
+```{r}
 # data wrangling
 asia <- totaldat %>%
   filter(continent == "Asia") %>%
@@ -74,16 +147,19 @@ map <- asia_vac %>%
   ggplot(group = location)+
   geom_sf(mapping = aes(geometry = geometry, fill = vac_rate, group = location), size = 0.3 )+
   theme_classic()+
-  scale_fill_distiller(palette = "Blues", na.value = "white", direction = 1)+
-  scale_fill_gradientn(colours = c(c('#461863','#404E88','#2A8A8C','#7FD157','#F9E53F',"red")),breaks = c(0,10,30,50,60,70))+
-  labs(fill = 'Fully vaccinated rate'
-       ,color = 'Israel'
-       ,title = 'Fully vaccinated rate of Covid in Asia(part)'
-       ,x = NULL
-       ,y = NULL)+
+  scale_fill_distiller(palette = "blues", na.value = "white", direction = 1)+
+  scale_fill_viridis(option="viridis",breaks = c(0,10,30,50,60,70))+
+  labs(fill = 'Fully vaccinated rate',
+       color = 'Israel',
+       title = 'Fully vaccinated rate of Covid in Asia(part)',
+       x = NULL,
+       y = NULL)+
   geom_point(x = 30, y = 31.04,shape = 11, size = 3, color = "red")
 
-ggplotly(map)
+ggplotly(map)%>%
+  layout(legend = list(orientation = "h",   # show entries horizontally
+                     xanchor = "center",  # use center of legend as anchor
+                     x = 0.5))
 ```
 
 

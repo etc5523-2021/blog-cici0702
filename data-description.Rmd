@@ -58,10 +58,10 @@ ireland <- df %>%
 ```
 
 ```{r}
-daily <- read.csv(here::here("all\ daily.csv")) %>%
+daily <- read.csv(here::here("dataset/all\ daily.csv")) %>%
   filter(location == "Ireland")
 
-country <- read.csv(here::here("Covid19CountyStatisticsHPSCIreland.csv"))
+country <- read.csv(here::here("dataset/Covid19CountyStatisticsHPSCIreland.csv"))
 ```
 
 
