@@ -26,7 +26,6 @@ library(tidyverse)
 library(gt)
 library(plotly)
 library(lubridate)
-library(kableExtra)
 library(DT)
 library(sparkline)
 library(rio)
@@ -39,7 +38,8 @@ library(xts)
 library(gganimate)
 ```
 ![Jerusalem,Israel](https://i.natgeofe.com/n/c864cd91-f26b-4db5-bd62-3e97dc7358c9/temple-mount-jerusalem-israel.jpg)
-# Introduction 
+
+## Introduction 
 
 Israel is a small, narrow country (with continually disputed borders), located in Western Asia. Its size is comparable to the state of Maryland. Israel has an amazing diversity of landscape, including mountains, desert, and a fertile river valley, where you can find the most famous Dead Sea. The capital of Israel is the holy city -- Jerusalem, which is full of the historic and religious elements that make this city so special.
 
@@ -65,7 +65,7 @@ des_table <- israel %>%
 ```
 
 
-## Backgroud information about COVID-19 in Israel
+## Background information about COVID-19 in Israel
 
 The first COVID-19 case in Israel was found in February 21, 2020. Now the pandemic has caused four waves in Israel in February 2020, September 2020, January 2021 and August 2021 separately. The government has already taken actions on policies and restrictions. There are **8789776** people in Israel. In this pandemic, there are `r scales::comma(des_table$total_cases)` cases and `r scales::comma(des_table$total_deaths)` deaths in total until September 11, 2021.
 
@@ -231,12 +231,11 @@ ggplot(age_group,aes(x = Date , y = weekly_cases, group = age_group, color = age
 
 ```
 
+The number of weekly new cases of different ages shows that the age between 0 - 19 has the highest infection rate among all the age groups. The numbers of all ages suffer the same trend with the whole country according to the pandemic wave. One of the reason that why young ages has the largest number of cases, is that this group of people is the latest group to get vaccinated. According to [Wikipedia](https://en.wikipedia.org/wiki/COVID-19_vaccination_in_Israel), the people between 60 to 70 are the first group to get vaccinated. In this graph it's hard to define this group of people. The second largest age group is people between 70 to 74, which in yellow line. The reason is that people are easily to get infected. Other groups of people has good ablity of immunity, therefore the cases are not that much.
 
+In Wikipedia, the vaccination rate of Israel has reached the top world highest vaccination rate per capita with good speed and number of vaccinations. However, Israel still faced four pandemic waves. Let's look at the surrounding countries.
 
-
-
-
-# draw map
+### The COVID-19 vaccination rate in Asia
 
 ```{r}
 # data wrangling
@@ -287,6 +286,12 @@ ggplotly(map)%>%
                      x = 0.5))
 ```
 
+In Asia, the United Arab Emirates has the largest vaccination rate with 78%. The red star marks the location of Israel which takes the vaccination rate with 63%. Although, Israel has a great vaccination rate, the neighbor country -- Palestine with only 9% vaccination rate and Lebanon with only 17% vaccination rate. Thus, people in Israel are easily to get infected though they have taken two doses vaccinations. The Coronavirus has caused other variants like Delta and Lambda which are inherited high infections among people, and this is also the reason why Israel still face the fourth wave. Now, the Israel government are going to take the third dose of vaccinations because the previous immunity is not stronger any more.
+
+## Conclusion
+
+## Reference
++ Hannah Ritchie, Edouard Mathieu, Lucas Rodés-Guirao, Cameron Appel, Charlie Giattino, Esteban Ortiz-Ospina, Joe Hasell, Bobbie Macdonald, Diana Beltekian and Max Roser (2020) - "Coronavirus Pandemic (COVID-19)". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/coronavirus' 
 
 
 
