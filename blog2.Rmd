@@ -256,7 +256,7 @@ asia_map <- ne_countries(continent = "asia", returnclass = "sf", scale = "medium
   select(name)
 
 # recode tables
-asia_map <- asia_map %>%
+asia_map1 <- asia_map %>%
   anti_join(asia, by = c("name" = "location"))
 asia_map <- asia_map %>%
   mutate(name = recode(name,
@@ -274,7 +274,7 @@ asia_vac <- asia_map %>%
 ```
 
 
-```{r, warning=FALSE, message=FALSE}
+```{r}
 # draw map
 map <- asia_vac %>%
   ggplot(group = location)+
