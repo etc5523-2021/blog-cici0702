@@ -38,8 +38,11 @@ library(dygraphs)
 library(xts)
 library(gganimate)
 ```
+![Jerusalem,Israel](https://i.natgeofe.com/n/c864cd91-f26b-4db5-bd62-3e97dc7358c9/temple-mount-jerusalem-israel.jpg)
+# Introduction 
 
-## dataset
+Israel is a small, narrow country (with continually disputed borders), located in Western Asia. Its size is comparable to the state of Maryland. Israel has an amazing diversity of landscape, including mountains, desert, and a fertile river valley, where you can find the most famous Dead Sea. The capital of Israel is the holy city -- Jerusalem, which is full of the historic and religious elements that make this city so special.
+
 ```{r}
 totaldat <- read.csv(here::here("dataset/owid-covid-data.csv"))
 
@@ -55,7 +58,27 @@ tot_age_gender <- read.csv(here::here("dataset/age_and_gender.csv")) %>%
 ```
 
 
+```{r}
+des_table <- israel %>%
+  select(total_cases,total_deaths) %>%
+  tail(n = 1)
+```
 
+
+## Backgroud information about COVID-19 in Israel
+
+The first COVID-19 case in Israel was found in February 21, 2020. Now the pandemic has caused four waves in Israel in February 2020, September 2020, January 2021 and August 2021 separately. The government has already taken actions on policies and restrictions. There are **8789776** people in Israel. In this pandemic, there are `r scales::comma(des_table$total_cases)` cases and `r scales::comma(des_table$total_deaths)` deaths in total until September 11, 2021.
+
+
+## Data description 
+
+There are two dataset of this analysis. The first dataset is from [Our world in data](https://ourworldindata.org/coronavirus), where contains all countries' COVID data. And I filter the Israel related information, where the range of the data is from February 20, 2020 to September 11, 2021. The dataset records the total cases, new cases, total deaths, new deaths, vaccinations, date and population.
+
+Another dataset is about weekly cases and weekly test of different age groups and genders in Israel. The dataset is from [Data Gov of Israel](https://data.gov.il/dataset/covid-19/resource/89f61e3a-4866-4bbf-bcc1-9734e5fee58e). Part of the data is recorded by Hebrew language, I recode some information with English for better analysis.
+
+## COVID-19 analysis in Israel
+
+### The monthly changes of cases and deaths
 ```{r}
 # make a table of israel
 # get the new cases and death data
@@ -63,7 +86,8 @@ tot_age_gender <- read.csv(here::here("dataset/age_and_gender.csv")) %>%
 israel_new <- israel %>%
   select(date, new_cases, new_deaths) %>%
   mutate(year = year(date),
-         month = month(date))
+         month = month(date),
+         date = as.Date(date))
 
 israel_2020 <- israel_new %>%
   filter(year == "2020") %>%
@@ -111,6 +135,104 @@ israel_covid_total %>%
     spk_add_deps()
 ```
 
+The table records the new cases and new death by monthly of Israel. The line graph can show the trend of cases and deaths, which most of them are fluctuated, while the boxplot shows the median cases and deaths of each month.
+
+### The daily changes of cases and deaths
+
+```{r}
+new_cases <- ggplot(israel_new,aes(x = date, y = new_cases))+
+  geom_col(stat = "identity",color = "cadetblue" , alpha = 0.2, width = 0.5)+
+  ylab("Number of daily new cases")+
+  ggtitle("The daily new cases of Israel")+
+  scale_x_date(date_labels = "%b %d")+
+  theme_classic()
+
+ggplotly(new_cases)
+```
+
+```{r}
+new_deaths <- ggplot(israel_new,aes(x = date, y = new_deaths))+
+  geom_col(stat = "identity",color ="darksalmon", alpha = 0.2, width = 0.5)+
+  ylab("Number of daily new deaths")+
+  ggtitle("The daily new deaths of Israel")+
+  scale_x_date(date_labels = "%b %d")+
+  theme_classic()
+
+ggplotly(new_deaths)
+```
+The daily new cases and new deaths graph presents the four pandemic waves clearly in Israel since there are four peaks in the two graphs. The number of daily deaths reaches the highest in January 2021 while the highest number of cases was in September 2021. 
+
+### The distribution of increasing cases in genders and age groups
+
+```{r}
+# compare the gender and age
+# use dygraph for gender barchart for age
+gender <- tot_age_gender %>%
+  select(last_week_day, gender, weekly_tests_num, weekly_cases) %>%
+  rename(`Weekly(date)` = last_week_day) %>%
+  mutate(weekly_tests_num = as.numeric(weekly_tests_num),
+         weekly_cases = as.numeric(weekly_cases),
+        `Weekly(date)` = as.Date(`Weekly(date)`))%>%
+  group_by(`Weekly(date)`, gender) %>%
+  summarise(weekly_tests = sum(weekly_tests_num),
+            weekly_cases = sum(weekly_cases))
+```
+
+```{r}
+# draw dygraph
+gender_cases <- gender %>%
+  select(-weekly_tests)%>%
+  pivot_wider(names_from = "gender",
+              values_from = weekly_cases)
+gender_cases <- gender_cases %>%
+  xts(order.by = gender_cases$`Weekly(date)`)
+
+dygraph(gender_cases, main = "The weekly newcases of genders in Israel") %>%
+  dyAxis("y", label = "male") %>%
+  dyAxis("y2", label = "female")%>%
+  dySeries("male", axis = "y",stepPlot = TRUE,fillGraph = TRUE) %>%
+  dySeries("female", axis = "y2", stepPlot = TRUE, color = "purple") %>%
+  dyOptions(axisLineWidth = 1.5, drawGrid = FALSE,,fillAlpha = 0.5) %>%
+  dyRangeSelector(height = 20) %>%
+  dyHighlight(highlightSeriesOpts = list(strokeWidth = 3))
+```
+
+
+The graph compares the male and female in Israel of being new COVID cases. Although there are some missing data here, it can clear see the four pandanmic waves in Israel. Sometimes, the number of cases of female is larger than male.
+By comparing the numbers, there is no clear evidence that which gender takes the leading role.
+
+
+```{r}
+# analysis the age group
+age_group <- tot_age_gender %>%
+  select(last_week_day, age_group, weekly_cases) %>%
+  rename(`Weekly(date)` = last_week_day) %>%
+  mutate(weekly_cases = as.numeric(weekly_cases),
+        `Weekly(date)` = as.Date(`Weekly(date)`)) %>%
+  mutate(year = year(`Weekly(date)`),
+         month = month(`Weekly(date)`)) %>%
+  na.omit() %>%
+  group_by(year,month,age_group) %>%
+  summarise(weekly_cases = sum(weekly_cases))
+
+age_group$Date <- with(age_group, sprintf("%d-%02d", year, month))
+age_group <- age_group %>%
+  mutate(Date = as.Date(paste(Date,"-01",sep = "")))
+```
+
+```{r}
+ggplot(age_group,aes(x = Date , y = weekly_cases, group = age_group, color = age_group)) +
+  geom_line(size = 0.5)+
+  geom_point(size = 1) +
+  scale_color_manual(values = c("paleturquoise3","moccasin","lightsteelblue","salmon","lightskyblue3","sandybrown","darkolivegreen2","thistle2","gray85","orchid3","pink","yellow","hotpink","green","lightblue"))+
+  theme_classic()+
+  ggtitle("Monthly new cases by age in Irsael")+
+  transition_reveal(Date)
+
+```
+
+
+
 
 
 
@@ -149,7 +271,7 @@ asia_vac <- asia_map %>%
 map <- asia_vac %>%
   ggplot(group = location)+
   geom_sf(mapping = aes(geometry = geometry, fill = vac_rate, group = location), size = 0.3 )+
-  theme_classic()+
+  theme_void()+
   scale_fill_distiller(palette = "blues", na.value = "white", direction = 1)+
   scale_fill_viridis(option="viridis",breaks = c(0,10,30,50,60,70))+
   labs(fill = 'Fully vaccinated rate',
@@ -166,67 +288,5 @@ ggplotly(map)%>%
 ```
 
 
-```{r}
-# compare the gender and age
-# use dygraph for gender barchart for age
-gender <- tot_age_gender %>%
-  select(last_week_day, gender, weekly_tests_num, weekly_cases) %>%
-  rename(`Weekly(date)` = last_week_day) %>%
-  mutate(weekly_tests_num = as.numeric(weekly_tests_num),
-         weekly_cases = as.numeric(weekly_cases),
-        `Weekly(date)` = as.Date(`Weekly(date)`))%>%
-  group_by(`Weekly(date)`, gender) %>%
-  summarise(weekly_tests = sum(weekly_tests_num),
-            weekly_cases = sum(weekly_cases))
-```
 
-```{r}
-# draw dygraph
-gender_cases <- gender %>%
-  select(-weekly_tests)%>%
-  pivot_wider(names_from = "gender",
-              values_from = weekly_cases)
-gender_cases <- gender_cases %>%
-  xts(order.by = gender_cases$`Weekly(date)`)
-
-dygraph(gender_cases, main = "The weekly newcases of genders in Israel") %>%
-  dyAxis("y", label = "male") %>%
-  dyAxis("y2", label = "female")%>%
-  dySeries("male", axis = "y",stepPlot = TRUE,fillGraph = TRUE) %>%
-  dySeries("female", axis = "y2", stepPlot = TRUE, color = "purple") %>%
-  dyOptions(axisLineWidth = 1.5, drawGrid = FALSE,,fillAlpha = 0.5) %>%
-  dyRangeSelector(height = 20) %>%
-  dyHighlight(highlightSeriesOpts = list(strokeWidth = 3))
-```
-
-```{r}
-# analysis the age group
-age_group <- tot_age_gender %>%
-  select(last_week_day, age_group, weekly_cases) %>%
-  rename(`Weekly(date)` = last_week_day) %>%
-  mutate(weekly_cases = as.numeric(weekly_cases),
-        `Weekly(date)` = as.Date(`Weekly(date)`)) %>%
-  mutate(year = year(`Weekly(date)`),
-         month = month(`Weekly(date)`)) %>%
-  na.omit() %>%
-  group_by(year,month,age_group) %>%
-  summarise(weekly_cases = sum(weekly_cases))
-
-age_group$Date <- with(age_group, sprintf("%d-%02d", year, month))
-
-```
-
-```{r}
-ggplot(age_group,aes(x = age_group , y = weekly_cases, fill = age_group)) +
-  geom_bar(stat='identity')+
-  theme_classic()+
-  ggtitle("monthly new cases by age in Irsael")+
-  scale_fill_manual(values = c("paleturquoise3","moccasin","lightsteelblue","salmon","lightskyblue3","sandybrown","darkolivegreen2","thistle2","gray85","orchid3","pink","yellow","hotpink","green","lightblue"))+
-  transition_states(
-    Date,
-    transition_length = 3,
-    state_length = 1
-  ) +
-  ease_aes('sine-in-out')
-```
 
