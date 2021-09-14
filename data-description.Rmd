@@ -226,9 +226,13 @@ region_compare <- region %>%
 region_compare <- region_compare %>%
   relocate(January, February, March, April, May, .after = CountyName)
 
-
 knitr::kable(region_compare, caption = "Increased cases in different cities of Ireland from January to May in 2021") %>%
-   kable_styling(position = "center") %>%
+  row_spec(6,background = "aliceblue") %>%
+  row_spec(7,background = "aliceblue") %>%
+  row_spec(4,background = "aliceblue") %>%
+  row_spec(18,bold = T, color = "lightpink") %>%
+  row_spec(15,bold = T, color = "lightpink") %>%
+  kable_styling(bootstrap_options = "hover") %>%
   scroll_box(height = "400px")
 ```
 
