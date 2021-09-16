@@ -1,7 +1,6 @@
 ---
-title: "Israel COVID-19 report"
-description: |
- The COVID-19 has lead to a pandamic, this report is based on Israel 🇮🇱.
+title: "The COVID-19 analysis in Israel"
+description: | 
 author:
   - name: Duan Qian
     url: https://etc5523-2021.github.io/blog-cici0702/
@@ -14,6 +13,19 @@ output:
    toc_depth: 3
    toc_float: true
 ---
+
+```{css, echo = FALSE}
+.d-title {
+  background-image: url(https://live.staticflickr.com/3952/15516957258_c77b762fb2_b.jpg);
+  width: 100%;
+  height: 300px;
+}
+
+h1 {
+  color: white;
+  font-family: "Papyrus", Fantasy;
+}
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
