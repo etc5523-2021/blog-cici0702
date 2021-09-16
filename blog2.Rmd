@@ -1,10 +1,10 @@
 ---
 title: "The COVID-19 analysis in Israel"
-description: | 
+description: |
 author:
   - name: Duan Qian
     url: https://etc5523-2021.github.io/blog-cici0702/
-date: 09-14-2021
+date: 08-29-2021
 output:
   distill::distill_article:
    include:
@@ -13,6 +13,7 @@ output:
    toc_depth: 3
    toc_float: true
 ---
+
 
 ```{css, echo = FALSE}
 .d-title {
@@ -52,7 +53,7 @@ library(gganimate)
 
 ![Jerusalem,Israel](https://i.natgeofe.com/n/c864cd91-f26b-4db5-bd62-3e97dc7358c9/temple-mount-jerusalem-israel.jpg)
 
-## Introduction 💡
+## Introduction 
 
 Israel is a small, narrow country (with continually disputed borders), located in Western Asia. Its size is comparable to the state of Maryland. Israel has an amazing diversity of landscape, including mountains, desert, and a fertile river valley, where you can find the most famous Dead Sea. The capital of Israel is the holy city -- Jerusalem, which is full of the historic and religious elements that make this city so special.
 
@@ -78,20 +79,20 @@ des_table <- israel %>%
 ```
 
 
-### Background information about COVID-19 in Israel 🦠
+## Background information about COVID-19 in Israel
 
 The first COVID-19 case in Israel was found in February 21, 2020. Now the pandemic has caused four waves in Israel in February 2020, September 2020, January 2021 and August 2021 separately. The government has already taken actions on policies and restrictions. There are **8789776** people in Israel. In this pandemic, there are `r scales::comma(des_table$total_cases)` cases and `r scales::comma(des_table$total_deaths)` deaths in total until September 11, 2021.
 
 
-## Data description 📎
+## Data description 
 
 There are two dataset of this analysis. The first dataset is from [Our world in data](https://ourworldindata.org/coronavirus), where contains all countries' COVID data. And I filter the Israel related information, where the range of the data is from February 20, 2020 to September 11, 2021. The dataset records the total cases, new cases, total deaths, new deaths, vaccinations, date and population.
 
 Another dataset is about weekly cases and weekly test of different age groups and genders in Israel. The dataset is from [Data Gov of Israel](https://data.gov.il/dataset/covid-19/resource/89f61e3a-4866-4bbf-bcc1-9734e5fee58e). Part of the data is recorded by Hebrew language, I recode some information with English for better analysis.
 
-## COVID-19 analysis in Israel 🌡️
+## COVID-19 analysis in Israel
 
-### 🔵 The monthly changes of cases and deaths 
+### The monthly changes of cases and deaths
 ```{r}
 # make a table of israel
 # get the new cases and death data
@@ -150,9 +151,7 @@ israel_covid_total %>%
 
 The table records the new cases and new death by monthly of Israel. The line graph can show the trend of cases and deaths, which most of them are fluctuated, while the boxplot shows the median cases and deaths of each month.
 
-### 🔵 Data story 1: When is the pandamic wave in Israel ?
-
-In [Wikipedia](https://en.wikipedia.org/wiki/COVID-19_vaccination_in_Israel), the statistic shows that there are four pandamic wave in Insrael of COVID-19 since February 2020, with February 2020, September 2020, January 2021 and August 2021 separately. How can we check when is the pandemic wave ?
+### The daily changes of cases and deaths
 
 ```{r}
 new_cases <- ggplot(israel_new,aes(x = date, y = new_cases))+
@@ -177,12 +176,7 @@ ggplotly(new_deaths)
 ```
 The daily new cases and new deaths graph presents the four pandemic waves clearly in Israel since there are four peaks in the two graphs. The number of daily deaths reaches the highest in January 2021 while the highest number of cases was in September 2021. 
 
-### 🔵 Data story 2: Why high vaccination rate still cause high cases?
-
-In [Wikipedia](https://en.wikipedia.org/wiki/COVID-19_vaccination_in_Israel), Israel people get vaccinated very fast and get a high vaccination rate which has already reach the top highly vaccination rate countries per capita. But the four pandemic waves shows that although people get vaccination in Israel, it is unavoidable to get infected by Coronavirus. Let's see the distribution of different ages and genders.
-
-
-#### The distribution of increasing cases in genders and age groups
+### The distribution of increasing cases in genders and age groups
 
 ```{r}
 # compare the gender and age
@@ -218,7 +212,7 @@ dygraph(gender_cases, main = "The weekly newcases of genders in Israel") %>%
 ```
 
 
-The graph compares the male and female in Israel of being new COVID cases. Although there are some missing data here, it can clear see the four pandemic waves in Israel. Sometimes, the number of cases of female is larger than male.
+The graph compares the male and female in Israel of being new COVID cases. Although there are some missing data here, it can clear see the four pandanmic waves in Israel. Sometimes, the number of cases of female is larger than male.
 By comparing the numbers, there is no clear evidence that which gender takes the leading role.
 
 
@@ -251,14 +245,13 @@ ggplot(age_group,aes(x = Date , y = weekly_cases, group = age_group, color = age
 
 ```
 
-**Reason 1**: The number of weekly new cases of different ages shows that the age between 0 - 19 has the highest infection rate among all the age groups. The numbers of all ages suffer the same trend with the whole country according to the pandemic wave. One of the reason that why young ages has the largest number of cases, is that this group of people is the latest group to get vaccinated. According to [Wikipedia](https://en.wikipedia.org/wiki/COVID-19_vaccination_in_Israel), the people between 60 to 70 are the first group to get vaccinated. In this graph it's hard to define this group of people. The second largest age group is people between 70 to 74, which in yellow line. The reason is that people are easily to get infected. Other groups of people has good ability of immunity, therefore the cases are not that much.
+The number of weekly new cases of different ages shows that the age between 0 - 19 has the highest infection rate among all the age groups. The numbers of all ages suffer the same trend with the whole country according to the pandemic wave. One of the reason that why young ages has the largest number of cases, is that this group of people is the latest group to get vaccinated. According to [Wikipedia](https://en.wikipedia.org/wiki/COVID-19_vaccination_in_Israel), the people between 60 to 70 are the first group to get vaccinated. In this graph it's hard to define this group of people. The second largest age group is people between 70 to 74, which in yellow line. The reason is that people are easily to get infected. Other groups of people has good ablity of immunity, therefore the cases are not that much.
 
-**Reason2**: The president approved students' testing plan during 2021-2022 school year, where students gets infection rate increase to 20%. The curve of People in 0 - 19 also clarifies that why children get such a high number of cases.
+In Wikipedia, the vaccination rate of Israel has reached the top world highest vaccination rate per capita with good speed and number of vaccinations. However, Israel still faced four pandemic waves. Let's look at the surrounding countries.
 
+### The COVID-19 vaccination rate in Asia
 
-#### The COVID-19 vaccination rate in Asia
-
-```{r,error = FALSE, warning=FALSE, message=FALSE}
+```{r}
 # data wrangling
 asia <- totaldat %>%
   filter(continent == "Asia") %>%
@@ -286,7 +279,7 @@ asia_vac <- asia_map %>%
 ```
 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # draw map
 map <- asia_vac %>%
   ggplot(group = location)+
@@ -296,11 +289,10 @@ map <- asia_vac %>%
   scale_fill_viridis(option="viridis",breaks = c(0,10,30,50,60,70))+
   labs(fill = 'Fully vaccinated rate',
        color = 'Israel',
-       title = 'Fully vaccinated rate of Covid in Asia',
+       title = 'Fully vaccinated rate of Covid in Asia(part)',
        x = NULL,
        y = NULL)+
-  geom_point(x = 30, y = 31.04,shape = 11, size = 3, color = "red")+
-  annotate("text", x = 30, y = 25, label = "Israel")
+  geom_point(x = 30, y = 31.04,shape = 11, size = 3, color = "red")
 
 ggplotly(map)%>%
   layout(legend = list(orientation = "h",   # show entries horizontally
@@ -308,60 +300,38 @@ ggplotly(map)%>%
                      x = 0.5))
 ```
 
-**Reason3** : In Asia, the United Arab Emirates has the largest vaccination rate with 78%. The red star marks the location of Israel which takes the vaccination rate with 63%. Although, Israel has a great vaccination rate, the neighbor country -- Palestine with only 9% vaccination rate and Lebanon with only 17% vaccination rate. Thus, people in Israel are easily to get infected though they have taken two doses vaccinations. The Coronavirus has caused other variants like Delta and Lambda which are inherited high infections among people, and this is also the reason why Israel still face the fourth wave. Now, the Israel government are going to take the third dose of vaccinations because the previous immunity is not stronger any more.
+In Asia, the United Arab Emirates has the largest vaccination rate with 78%. The red star marks the location of Israel which takes the vaccination rate with 63%. Although, Israel has a great vaccination rate, the neighbor country -- Palestine with only 9% vaccination rate and Lebanon with only 17% vaccination rate. Thus, people in Israel are easily to get infected though they have taken two doses vaccinations. The Coronavirus has caused other variants like Delta and Lambda which are inherited high infections among people, and this is also the reason why Israel still face the fourth wave. Now, the Israel government are going to take the third dose of vaccinations because the previous immunity is not stronger any more.
 
-## Conclusion 📍
+## Conclusion
 
-Covid-19 has lead to a worldwide pandemic, some countries even faced five or six or even more pandemic waves. Government take actions to restrict people's activities and provide more health facilities to encounter this. Israel government also do a great job in facing Covid-19, with high vaccination rate and control everything well. Neighbor countries low vaccination rate and religions problem also make some people are unwilling to get vaccinated, these are the issues of how the govenment need to face in the future. Getting the third dose is one of the ways to do.
+Covid-19 has lead to a worldwide pandemic, some countries even faced five or six or even more pandemic waves. Government take actions to restrict people’s activities and provide more health facilities to encounter this. Israel government also do a great job in facing Covid-19, with high vaccination rate and control everything well. Neighbor countries low vaccination rate and religions problem also make some people are unwilling to get vaccinated, these are the issues of how the govenment need to face in the future. Getting the third dose is one of the ways to do.
 
 
-## Reference 📖
+## Reference
 
-+ Hannah Ritchie, Edouard Mathieu, Lucas Rodés-Guirao, Cameron Appel, Charlie Giattino, Esteban Ortiz-Ospina, Joe Hasell, Bobbie Macdonald, Diana Beltekian and Max Roser (2020) - "Coronavirus Pandemic (COVID-19)". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/coronavirus' 
+Hannah Ritchie, Edouard Mathieu, Lucas Rodés-Guirao, Cameron Appel, Charlie Giattino, Esteban Ortiz-Ospina, Joe Hasell, Bobbie Macdonald, Diana Beltekian and Max Roser (2020) - “Coronavirus Pandemic (COVID-19)”. Published online at OurWorldInData.org. Retrieved from: ‘https://ourworldindata.org/coronavirus’
 
-+ Corona data by sex and age groups. Israel Government Databases(May 2020)
-Retrieved from: https://data.gov.il/dataset/covid-19/resource/89f61e3a-4866-4bbf-bcc1-9734e5fee58e
+Corona data by sex and age groups. Israel Government Databases(May 2020) Retrieved from: https://data.gov.il/dataset/covid-19/resource/89f61e3a-4866-4bbf-bcc1-9734e5fee58e
 
-+ Wickham et al., (2019). Welcome to the tidyverse.
-  Journal of Open Source Software, 4(43), 1686,
-  https://doi.org/10.21105/joss.01686
+Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
 
-+ Richard Iannone, Joe Cheng and Barret Schloerke (2021).
-  gt: Easily Create Presentation-Ready Display Tables. R
-  package version 0.3.1.
-  https://CRAN.R-project.org/package=gt
+Richard Iannone, Joe Cheng and Barret Schloerke (2021). gt: Easily Create Presentation-Ready Display Tables. R package version 0.3.1. https://CRAN.R-project.org/package=gt
 
-+ Achim Zeileis and Gabor Grothendieck (2005). zoo: S3
-  Infrastructure for Regular and Irregular Time Series.
-  Journal of Statistical Software, 14(6), 1-27.
-  doi:10.18637/jss.v014.i06
-  
-+ C. Sievert. Interactive Web-Based Data Visualization
-  with R, plotly, and shiny. Chapman and Hall/CRC Florida,2020.
-  
-+ Garrett Grolemund, Hadley Wickham (2011). Dates and
-  Times Made Easy with lubridate. Journal of Statistical
-  Software, 40(3), 1-25. URL
-  https://www.jstatsoft.org/v40/i03/.
-  
-+ Yihui Xie, Joe Cheng and Xianying Tan (2021). DT: A Wrapper of
-  the JavaScript Library 'DataTables'. R package version 0.18.
-  https://CRAN.R-project.org/package=DT
-  
-+ Ramnath Vaidyanathan, Kent Russell and Gareth Watts (2016).
-  sparkline: 'jQuery' Sparkline 'htmlwidget'. R package version
-  2.0.
+Achim Zeileis and Gabor Grothendieck (2005). zoo: S3 Infrastructure for Regular and Irregular Time Series. Journal of Statistical Software, 14(6), 1-27. doi:10.18637/jss.v014.i06
 
-+ Andy South (2017). rnaturalearth: World Map Data from Natural
-  Earth. R package version 0.1.0.
-  https://CRAN.R-project.org/package=rnaturalearth
-  
-+ Pebesma, E., 2018. Simple Features for R: Standardized Support
-  for Spatial Vector Data. The R Journal 10 (1), 439-446,
-  https://doi.org/10.32614/RJ-2018-009
-  
-+ Dan Vanderkam, JJ Allaire, Jonathan Owen, Daniel Gromer and
-  Benoit Thieurmel (2018). dygraphs: Interface to 'Dygraphs'
-  Interactive Time Series Charting Library. R package version
-  1.1.1.6. https://CRAN.R-project.org/package=dygraphs
+C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC Florida,2020.
+
+Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with lubridate. Journal of Statistical Software, 40(3), 1-25. URL https://www.jstatsoft.org/v40/i03/.
+
+Yihui Xie, Joe Cheng and Xianying Tan (2021). DT: A Wrapper of the JavaScript Library ‘DataTables’. R package version 0.18. https://CRAN.R-project.org/package=DT
+
+Ramnath Vaidyanathan, Kent Russell and Gareth Watts (2016). sparkline: ‘jQuery’ Sparkline ‘htmlwidget’. R package version 2.0.
+
+Andy South (2017). rnaturalearth: World Map Data from Natural Earth. R package version 0.1.0. https://CRAN.R-project.org/package=rnaturalearth
+
+Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal 10 (1), 439-446, https://doi.org/10.32614/RJ-2018-009
+
+Dan Vanderkam, JJ Allaire, Jonathan Owen, Daniel Gromer and Benoit Thieurmel (2018). dygraphs: Interface to ‘Dygraphs’ Interactive Time Series Charting Library. R package version 1.1.1.6. https://CRAN.R-project.org/package=dygraphs
+
+
 
